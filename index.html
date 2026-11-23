@@ -49,7 +49,9 @@ header.bar .wrap{height:100%;display:flex;align-items:center;gap:14px}
 nav.links{display:flex;gap:4px;margin-left:auto;overflow:auto;scrollbar-width:none}
 nav.links a{padding:8px 11px;border-radius:10px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:.9rem;white-space:nowrap}
 nav.links a:hover,nav.links a.on{background:var(--surface-2);color:var(--ink)}
-.tools{display:flex;gap:8px;align-items:center}
+.tools{display:flex;gap:8px;align-items:center;flex:none}
+nav.links{min-width:0}
+.seg button{white-space:nowrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;border-radius:12px;padding:11px 18px;font-weight:700;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;text-decoration:none;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 18px color-mix(in srgb,var(--brand) 35%,transparent)}
 .btn:hover{transform:translateY(-2px)}
 .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
@@ -313,7 +315,7 @@ body.present .pbar{display:flex;position:fixed;inset:auto 0 0 0;height:56px;z-in
       <label class="switch"><input type="checkbox" id="gst"> Show prices incl. 18% GST</label>
     </div>
     <div class="grid g3" id="pkgGrid" style="margin-top:8px"></div>
-    <p class="note" style="margin-top:16px">Domain and hosting are billed at cost (typically ₹3,000–₹8,000 per year for a small business site). We set them up in your name.</p>
+    <p class="note" style="margin-top:16px">Domain and hosting are optional: we offer a bundled yearly plan in your name, or you can buy them yourself and we’ll set them up. Care plans and SEO retainers are listed under <a href="#plans">Payments</a>.</p>
   </div>
 </section>
 
@@ -414,12 +416,14 @@ body.present .pbar{display:flex;position:fixed;inset:auto 0 0 0;height:56px;z-in
 <section class="slide alt" id="faq" data-title="FAQ">
   <div class="wrap" style="max-width:820px">
     <div class="section-head reveal"><span class="eyebrow">Good questions</span><h2>Frequently asked.</h2></div>
-    <details><summary>What’s not included in the price?</summary><p>Domain name, hosting and any paid third-party tools or premium plugins are billed at cost and registered in your name. Stock photography and video production are also separate unless you add copywriting/brand add-ons.</p></details>
-    <details><summary>How do payments work?</summary><p>50% to start, 30% when the design is approved, and 20% before go-live. Final files and access are handed over once the last milestone is paid.</p></details>
+    <details><summary>What’s not included in the price?</summary><p>Domain, hosting and SSL (available as our optional yearly bundle, registered in your name), paid third-party tools or premium plugins, and stock photography or video. Copywriting and branding are available as add-ons.</p></details>
+    <details><summary>How do payments work?</summary><p>50% to start, 30% when the design is approved, and 20% before go-live. Prefer to pay once? Pay the full project fee upfront and take 5% off. Final files and access are handed over once the last payment is received.</p></details>
+    <details><summary>What if I need to cancel or pause?</summary><p>The 50% start payment covers discovery and design work and is non-refundable. Any milestone already delivered is billed. You keep everything delivered up to that point once it is paid for.</p></details>
+    <details><summary>What if I want more changes than the revision rounds?</summary><p>Each package includes fixed revision rounds (2, 3 or 4). Extra changes are billed hourly, and we quote the hours before starting so there are no surprises.</p></details>
     <details><summary>Who owns the website?</summary><p>You do. You get the code, design files, content and all accounts. No lock-in.</p></details>
     <details><summary>How long will it take?</summary><p>Roughly 10 working days for Basic, 4 weeks for Pro and 8+ weeks for Advanced. The biggest factor is how quickly content and feedback arrive — the quote builder shows an estimate for your exact selection.</p></details>
     <details><summary>Can I upgrade later?</summary><p>Yes. If you start on Basic or Pro and upgrade within 90 days, you pay only the price difference between the packages.</p></details>
-    <details><summary>What happens after launch?</summary><p>Every package includes free post-launch support (30, 60 or 90 days). After that you can add a care plan covering updates, backups, security checks and small changes.</p></details>
+    <details><summary>What happens after launch?</summary><p>Every package includes free post-launch support (30, 60 or 90 days). After that you can add a monthly care plan covering updates, backups, security checks and small changes — Advanced includes the first 3 months free. SEO retainers are also available.</p></details>
     <details><summary>Can you work with my existing site or brand?</summary><p>Absolutely. We can redesign, migrate content, or keep your existing branding. Tell us in the enquiry form and we’ll scope it.</p></details>
   </div>
 </section>
@@ -654,7 +658,14 @@ function renderQuoteControls(){
     const ctrl=inc?`<input type="checkbox" checked disabled aria-label="${a.name} included">`:a.step
       ?`<div class="step"><button data-a="${a.id}" data-d="-1" aria-label="Fewer">–</button><output>${v}</output><button data-a="${a.id}" data-d="1" aria-label="More">+</button></div>`
       :`<input type="checkbox" data-a="${a.id}" ${v?"checked":""} aria-label="${a.name}">`;
-    return `<label class="addon ${on?"on":""} ${inc?"inc":""}">${ctrl}<span class="t"><b>${a.name}</b><span>${a.desc}</span></span><span class="p">${price}</span></label>`}).join("");
+    return `<label class="addon ${on?"on":""} ${inc?"inc":""}">${ctrl}<span class="t"><b>${a.name}</b><span>${a.desc}</span></span><span class="p">${price}</span></label>`}).join("")
+  +`<h4 style="margin:26px 0 10px">Recurring plans · billed after launch</h4>`
+  +RECUR.map(r=>{const on=!!state.rec[r.id], note=r.inc&&r.inc[state.pkg];
+    return `<label class="addon ${on?"on":""}"><input type="checkbox" data-r="${r.id}" ${on?"checked":""} aria-label="${r.name}"><span class="t"><b>${r.name}</b><span>${r.desc}${note?` · <b style="display:inline;color:var(--ok)">${note}</b>`:""}</span></span><span class="p">${money(recPrice(r,state.pkg))}/${r.per}</span></label>`}).join("");
+  $$("#addons input[data-r]").forEach(i=>i.onchange=()=>{
+    const id=i.dataset.r; state.rec[id]=i.checked;
+    if(i.checked&&id==="seoS")state.rec.seoG=false; if(i.checked&&id==="seoG")state.rec.seoS=false;
+    renderQuoteControls();renderQuoteSummary();renderLead()});
   $$("#addons input[data-a]").forEach(i=>i.onchange=()=>{state.add[i.dataset.a]=i.checked?1:0;renderQuoteSummary();renderQuoteControls();renderLead()});
   $$("#addons .step button").forEach(b=>b.onclick=e=>{e.preventDefault();const id=b.dataset.a;state.add[id]=Math.max(0,Math.min(40,(state.add[id]||0)+Number(b.dataset.d)));renderQuoteControls();renderQuoteSummary();renderLead()});
 }
@@ -751,7 +762,9 @@ function summaryText(){
   const q=window.__quote||calcQuote(), L=[];
   L.push(`Package: ${q.p.name} (${q.p.sub})`);
   q.items.slice(1).forEach(i=>L.push(`+ ${i.n}`));
-  L.push(`Estimate: ${money(q.total)} ${state.gst?"incl.":"excl."} GST`);
+  if(q.disc)L.push(`Early-pay discount (5%): -${money(q.disc)} (full payment upfront)`);
+  L.push(`Project estimate: ${money(q.total)} ${state.gst?"incl.":"excl."} GST`);
+  q.rec.forEach(r=>L.push(`Recurring: ${r.n} — ${money(r.v*gstMul())}/${r.per}`));
   L.push(`Delivery: ${$("#sumDays").textContent}`);
   return L.join("\n");
 }
@@ -856,6 +869,8 @@ function refreshAll(){
 $$(".seg button[data-cur]").forEach(b=>b.onclick=()=>{state.cur=b.dataset.cur;$$(".seg button[data-cur]").forEach(x=>x.setAttribute("aria-pressed",x===b));store.set("g_cur",state.cur);refreshAll()});
 $("#gst").onchange=e=>{state.gst=e.target.checked;refreshAll()};
 $("#diffOnly").onchange=e=>{state.diff=e.target.checked;renderCompare()};
+$("#early").onchange=e=>{state.early=e.target.checked;renderQuoteSummary();renderLead()};
+$("#applyEarly").onclick=()=>{state.early=true;renderQuoteSummary();renderLead();jumpTo("#quote")};
 ["#rVis","#rConv","#rVal","#rUp"].forEach(s=>$(s).addEventListener("input",renderROI));
 $("#theme").onclick=()=>{
   const root=document.documentElement, dark=getComputedStyle(root).getPropertyValue("--bg").trim()==="#0b1022";
