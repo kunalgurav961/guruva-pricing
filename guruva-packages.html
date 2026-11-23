@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guruva Infotech — Website Packages</title>
+<meta name="description" content="Three website packages — Basic, Pro and Advanced — with an interactive quote builder, package finder and ROI calculator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#f6f7fb; --surface:#ffffff; --surface-2:#eef0f8; --ink:#0f1630; --ink-2:#47506b; --line:#dfe3f0;
+  --brand:#4f46e5; --brand-2:#7c3aed; --brand-ink:#ffffff; --accent:#f59e0b; --ok:#059669; --bad:#c2410c;
+  --hero-a:#111a4a; --hero-b:#3b2a9e; --shadow:0 10px 30px rgba(20,28,70,.08); --radius:18px;
+  --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0b1022; --surface:#131a33; --surface-2:#1b2444; --ink:#eef0ff; --ink-2:#a5aed0; --line:#27315a;
+  --brand:#8b83ff; --brand-2:#a78bfa; --brand-ink:#0b1022; --accent:#fbbf24; --ok:#34d399; --bad:#fb923c;
+  --hero-a:#0b1022; --hero-b:#241a6b; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1022; --surface:#131a33; --surface-2:#1b2444; --ink:#eef0ff; --ink-2:#a5aed0; --line:#27315a;
+    --brand:#8b83ff; --brand-2:#a78bfa; --brand-ink:#0b1022; --accent:#fbbf24; --ok:#34d399; --bad:#fb923c;
+    --hero-a:#0b1022; --hero-b:#241a6b; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{line-height:1.15;margin:0 0 .5em;letter-spacing:-.02em}
+h1{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:800}
+h2{font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:800}
+h3{font-size:1.25rem;font-weight:700}
+p{margin:0 0 1em;color:var(--ink-2)}
+a{color:var(--brand)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin-bottom:.8rem}
+.lead{font-size:1.1rem;max-width:62ch}
+
+/* header */
+header.bar{position:fixed;inset:0 0 auto 0;height:60px;z-index:50;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header.bar .wrap{height:100%;display:flex;align-items:center;gap:14px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none;color:var(--ink);white-space:nowrap}
+.logo i{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;color:#fff;font-style:normal;font-size:1rem}
+nav.links{display:flex;gap:4px;margin-left:auto;overflow:auto;scrollbar-width:none}
+nav.links a{padding:8px 11px;border-radius:10px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:.9rem;white-space:nowrap}
+nav.links a:hover,nav.links a.on{background:var(--surface-2);color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;border-radius:12px;padding:11px 18px;font-weight:700;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;text-decoration:none;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 18px color-mix(in srgb,var(--brand) 35%,transparent)}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.sm{padding:8px 13px;font-size:.88rem;border-radius:10px}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line);background:transparent;cursor:pointer;display:grid;place-items:center}
+.icon-btn:hover{background:var(--surface-2)}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:2px}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:9px;font-weight:700;cursor:pointer;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+
+/* slides */
+.slide{padding:96px 0 72px;position:relative}
+.slide.alt{background:var(--surface)}
+.slide.hero{min-height:100vh;display:flex;align-items:center;color:#fff;background:radial-gradient(900px 500px at 85% 10%,rgba(124,58,237,.55),transparent 60%),radial-gradient(700px 500px at 0% 100%,rgba(79,70,229,.5),transparent 60%),linear-gradient(160deg,var(--hero-a),var(--hero-b));overflow:hidden}
+.hero h1{color:#fff}.hero p{color:#cfd4ff}.hero .eyebrow{color:#c4b5fd}
+.hero .grad{background:linear-gradient(90deg,#fde68a,#f9a8d4,#a5b4fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 36px}
+.hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.35)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.12)}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.85rem;font-weight:600;color:#e6e8ff}
+.orb{position:absolute;right:-80px;top:20%;width:380px;height:380px;border-radius:50%;background:conic-gradient(from 0deg,#7c3aed,#06b6d4,#f59e0b,#7c3aed);filter:blur(70px);opacity:.35;animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.section-head{margin-bottom:36px}
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.alt .card{background:var(--bg)}
+
+/* stats */
+.stat .num{font-size:clamp(2.4rem,5vw,3.4rem);font-weight:800;background:linear-gradient(135deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.stat p{margin:.6em 0 .4em;color:var(--ink)}
+.stat small{color:var(--ink-2)}
+.note{font-size:.82rem;color:var(--ink-2)}
+
+/* packages */
+.toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:28px}
+.toolbar .grow{flex:1}
+.switch{display:inline-flex;gap:8px;align-items:center;font-weight:600;cursor:pointer;font-size:.92rem}
+.switch input{accent-color:var(--brand);width:18px;height:18px}
+.pkg{position:relative;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s}
+.pkg:hover{transform:translateY(-4px)}
+.pkg.sel{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 30%,transparent),var(--shadow)}
+.pkg.rec{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 9%,var(--surface)),var(--surface))}
+.badge{position:absolute;top:-13px;left:24px;background:var(--accent);color:#2b1a00;font-weight:800;font-size:.75rem;padding:5px 12px;border-radius:999px;letter-spacing:.04em}
+.pkg .tag{color:var(--ink-2);font-size:.95rem;min-height:2.9em}
+.price{font-size:2.5rem;font-weight:800;letter-spacing:-.03em;margin:6px 0 2px}
+.price small{font-size:.9rem;font-weight:600;color:var(--ink-2);letter-spacing:0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
+.pill{font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+ul.ticks{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:9px}
+ul.ticks li{position:relative;padding-left:26px;font-size:.93rem;color:var(--ink)}
+ul.ticks li::before{content:"✓";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok);font-size:.7rem;font-weight:800;display:grid;place-items:center;margin-top:3px}
+ul.ticks li.head{font-weight:700;padding-left:0}
+ul.ticks li.head::before{display:none}
+ul.ticks li.extra{display:none}
+.pkg.open ul.ticks li.extra{display:block}
+.more{background:none;border:0;color:var(--brand);font-weight:700;cursor:pointer;padding:0;margin:-6px 0 18px;text-align:left}
+.pkg .btn{margin-top:auto}
+
+/* compare */
+.table-scroll{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table.cmp{width:100%;border-collapse:collapse;min-width:640px}
+.cmp th,.cmp td{padding:14px 16px;text-align:center;border-bottom:1px solid var(--line);font-size:.92rem}
+.cmp th:first-child,.cmp td:first-child{text-align:left;font-weight:600;color:var(--ink)}
+.cmp thead th{position:sticky;top:0;background:var(--surface-2);font-size:1rem}
+.cmp tbody tr:hover{background:var(--surface-2)}
+.cmp td.y{color:var(--ok);font-weight:800}.cmp td.n{color:var(--ink-2);opacity:.5}
+.cmp col.hl,.cmp th.hl,.cmp td.hl{background:color-mix(in srgb,var(--brand) 8%,transparent)}
+.cmp tr.group td{background:var(--surface-2);font-weight:800;text-align:left;color:var(--brand);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* quote */
+.quote{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:start}
+.addon{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:10px;transition:border-color .15s,background .15s}
+.addon.on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 7%,var(--surface))}
+.addon.inc{opacity:.75}
+.addon input[type=checkbox]{width:20px;height:20px;accent-color:var(--brand);flex:none}
+.addon .t{flex:1}.addon .t b{display:block}.addon .t span{font-size:.85rem;color:var(--ink-2)}
+.addon .p{font-weight:800;white-space:nowrap}
+.step{display:inline-flex;align-items:center;gap:8px}
+.step button{width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-weight:800}
+.step output{min-width:22px;text-align:center;font-weight:800}
+.sum{position:sticky;top:80px}
+.sum .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.93rem}
+.sum .row span:first-child{color:var(--ink-2)}
+.sum .total{font-size:2rem;font-weight:800;letter-spacing:-.02em;padding:14px 0 4px;border:0}
+.ms{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.ms div{background:var(--surface-2);border-radius:12px;padding:10px;text-align:center;font-size:.8rem;color:var(--ink-2)}
+.ms b{display:block;color:var(--ink);font-size:.98rem}
+.bar-track{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin:6px 0 2px}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0;transition:width .4s}
+
+/* benchmark */
+.bench{margin-top:36px}
+.brow{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:center;margin:10px 0;font-size:.88rem}
+.btrack{position:relative;height:26px;background:var(--surface-2);border-radius:8px}
+.brange{position:absolute;top:4px;bottom:4px;border-radius:6px;background:color-mix(in srgb,var(--ink-2) 35%,transparent)}
+.bmark{position:absolute;top:-4px;width:4px;height:34px;border-radius:3px;background:var(--brand);transform:translateX(-2px)}
+.bmark.sel{background:var(--accent);width:6px}
+.bmark b{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.7rem;white-space:nowrap;margin-bottom:2px}
+.axis{display:grid;grid-template-columns:200px 1fr;gap:14px}
+.axis div:last-child{position:relative;height:18px;font-size:.72rem;color:var(--ink-2)}
+.axis span{position:absolute;transform:translateX(-50%)}
+
+/* roi */
+.roi{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.field{margin-bottom:20px}
+.field label{display:flex;justify-content:space-between;font-weight:700;margin-bottom:8px;font-size:.93rem}
+.field label output{color:var(--brand)}
+input[type=range]{width:100%;accent-color:var(--brand)}
+input[type=number],input[type=text],input[type=email],input[type=tel],textarea,select{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);}
+textarea{min-height:90px;resize:vertical}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kpi div{background:var(--surface-2);border-radius:14px;padding:16px}
+.kpi small{color:var(--ink-2);font-weight:600}
+.kpi b{display:block;font-size:1.6rem;letter-spacing:-.02em}
+.kpi .big{grid-column:1/-1;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff}
+.kpi .big small{color:#e7e4ff}
+
+/* process */
+.steps{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.steps button{flex:1;min-width:120px;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;cursor:pointer;transition:all .15s}
+.steps button b{display:block;font-size:.75rem;color:var(--brand);letter-spacing:.1em}
+.steps button[aria-selected="true"]{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 9%,var(--surface))}
+.panel{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+
+/* faq */
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px 20px;margin-bottom:10px}
+details[open]{border-color:var(--brand)}
+summary{cursor:pointer;font-weight:700;padding:14px 0;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--brand)}
+details[open] summary::after{content:"–"}
+details p{padding-bottom:6px}
+
+/* cta */
+.cta{display:grid;grid-template-columns:1fr 1.1fr;gap:32px;align-items:start}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.formgrid .full{grid-column:1/-1}
+.summary-box{white-space:pre-wrap;font-size:.85rem;background:var(--surface-2);border-radius:12px;padding:14px;color:var(--ink);max-height:230px;overflow:auto;margin:0 0 14px}
+.err{color:var(--bad);font-weight:600;font-size:.88rem;min-height:1.3em;margin:6px 0}
+footer{padding:36px 0;text-align:center;color:var(--ink-2);font-size:.85rem;border-top:1px solid var(--line)}
+footer a{color:var(--ink-2)}
+
+/* quiz dialog */
+dialog{border:0;border-radius:20px;padding:0;max-width:560px;width:calc(100% - 32px);background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+dialog::backdrop{background:rgba(8,10,25,.6);backdrop-filter:blur(4px)}
+.dlg{padding:28px}
+.dlg fieldset{border:0;padding:0;margin:0 0 18px}
+.dlg legend{font-weight:700;margin-bottom:10px}
+.opt{display:block;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.opt:has(input:checked){border-color:var(--brand);background:color-mix(in srgb,var(--brand) 9%,var(--surface))}
+.opt input{accent-color:var(--brand);margin-right:10px}
+
+/* presenter */
+.pbar{display:none}
+body.present{overflow:hidden}
+body.present .slide{display:none;height:100vh;overflow:auto;padding-top:84px;padding-bottom:84px}
+body.present .slide.active{display:block}
+body.present .slide.hero.active{display:flex}
+body.present nav.links{display:none}
+body.present .pbar{display:flex;position:fixed;inset:auto 0 0 0;height:56px;z-index:60;align-items:center;justify-content:center;gap:14px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.pbar .prog{width:min(300px,34vw);height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.pbar .prog i{display:block;height:100%;background:var(--brand);width:0;transition:width .3s}
+.pbar span{font-weight:700;font-size:.9rem;min-width:56px;text-align:center}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal.in,body.present .reveal{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.orb{animation:none}html{scroll-behavior:auto}}
+
+@media (max-width:980px){
+  .g3,.g4{grid-template-columns:1fr 1fr}
+  .quote,.roi,.panel,.cta{grid-template-columns:1fr}
+  .sum{position:static}
+  nav.links{display:none}
+  header.bar .tools{margin-left:auto}
+}
+@media (max-width:640px){
+  .g3,.g4{grid-template-columns:1fr}
+  .brow,.axis{grid-template-columns:1fr}
+  .axis>div:first-child{display:none}
+  .formgrid{grid-template-columns:1fr}
+  .logo span.nm{display:none}
+  header.bar .wrap{gap:8px;padding:0 12px}
+  .seg button{padding:7px 9px;font-size:.85rem}
+  .btn.sm{padding:8px 11px}
+  .hero,.orb{overflow:hidden}
+  body{overflow-x:hidden}
+  .slide{padding:84px 0 56px}
+  .btn.sm .lbl{display:none}
+}
+@media print{
+  header.bar,.pbar,.orb,.toolbar,.hero-cta,.no-print{display:none!important}
+  body{background:#fff;color:#000}
+  .slide{display:block!important;height:auto!important;padding:28px 0;break-inside:avoid;page-break-after:always}
+  .slide.hero{min-height:0;background:#111a4a!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .reveal{opacity:1!important;transform:none!important}
+  details{display:block}details>*{display:block}
+  ul.ticks li.extra{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#top"><i>G</i><span class="nm">Guruva Infotech</span></a>
+    <nav class="links" id="nav" aria-label="Sections">
+      <a href="#why">Why</a><a href="#packages">Packages</a><a href="#compare">Compare</a><a href="#quote">Build quote</a><a href="#plans">Payments</a><a href="#roi">ROI</a><a href="#process">Process</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+    </nav>
+    <div class="tools">
+      <div class="seg" role="group" aria-label="Currency">
+        <button data-cur="INR" aria-pressed="true">₹ INR</button>
+        <button data-cur="USD" aria-pressed="false">$ USD</button>
+      </div>
+      <button class="icon-btn" id="theme" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+      <button class="btn sm" id="presentBtn" title="Slide-by-slide presentation mode (P)">▶ <span class="lbl">Present</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 1 HERO -->
+<section class="slide hero" data-title="Welcome">
+  <div class="orb" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow">Website packages · 2026</span>
+    <h1>A website that <span class="grad">earns its keep</span> — not just a brochure.</h1>
+    <p class="lead">Guruva Infotech designs and builds fast, search-friendly websites for growing businesses. Pick a package, tweak it, and see your exact price and timeline in seconds. No hidden costs, no surprises.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#packages">See the 3 packages →</a>
+      <button class="btn ghost" id="openQuiz1">Help me choose (30 sec)</button>
+    </div>
+    <div class="chips"><span class="chip">⚡ Speed-first builds</span><span class="chip">📱 Mobile-first design</span><span class="chip">🔎 SEO-ready from day one</span><span class="chip">🤝 You own everything</span></div>
+  </div>
+</section>
+
+<!-- 2 WHY -->
+<section class="slide alt" id="why" data-title="Why it matters">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Why it matters</span><h2>Your website is your hardest-working salesperson.</h2><p class="lead">People judge you in seconds. Speed, mobile experience and search visibility decide whether visitors become customers — so we build for all three.</p></div>
+    <div class="grid g4">
+      <div class="card stat reveal"><div class="num"><span data-count="32">0</span>%</div><p>higher bounce probability as a mobile page goes from 1s to 3s load time.</p><small>Google research, via <a href="https://www.hostinger.com/in/tutorials/website-load-time-statistics/" target="_blank" rel="noopener">Hostinger</a></small></div>
+      <div class="card stat reveal"><div class="num"><span data-count="53">0</span>%</div><p>of mobile sites pass all three Core Web Vitals. Pass them and you beat nearly half the web.</p><small>Chrome UX Report, via <a href="https://colorlib.com/wp/site-speed-statistics/" target="_blank" rel="noopener">Colorlib</a></small></div>
+      <div class="card stat reveal"><div class="num">≤<span data-count="2.5" data-dec="1">0</span>s</div><p>is Google’s “good” threshold for Largest Contentful Paint. It’s our build target for Pro and Advanced.</p><small>Core Web Vitals guidance</small></div>
+      <div class="card stat reveal"><div class="num"><span data-count="3">0</span>×</div><p>higher conversion for a B2B site loading in 1s vs 5s (correlational, older study).</p><small>Portent, via <a href="https://blog.hubspot.com/marketing/page-load-time-conversion-rates" target="_blank" rel="noopener">HubSpot</a></small></div>
+    </div>
+    <p class="note reveal" style="margin-top:18px">Figures are cited from third-party summaries; they show direction, not a guarantee for any individual site.</p>
+  </div>
+</section>
+
+<!-- 3 PACKAGES -->
+<section class="slide" id="packages" data-title="Packages">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Our packages</span><h2>Three clear packages. Pick where you are today.</h2><p class="lead">Each tier includes everything in the one before it. Start small and upgrade later, or go straight to what you need.</p></div>
+    <div class="toolbar reveal">
+      <button class="btn ghost sm" id="openQuiz2">🎯 Not sure? Find my package</button>
+      <span class="grow"></span>
+      <label class="switch"><input type="checkbox" id="gst"> Show prices incl. 18% GST</label>
+    </div>
+    <div class="grid g3" id="pkgGrid" style="margin-top:8px"></div>
+    <p class="note" style="margin-top:16px">Domain and hosting are billed at cost (typically ₹3,000–₹8,000 per year for a small business site). We set them up in your name.</p>
+  </div>
+</section>
+
+<!-- 4 COMPARE -->
+<section class="slide alt" id="compare" data-title="Compare">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Side by side</span><h2>Compare every feature.</h2></div>
+    <div class="toolbar"><label class="switch"><input type="checkbox" id="diffOnly"> Show only differences</label><span class="grow"></span><span class="note">Hover a row to highlight it. Your selected package is shaded.</span></div>
+    <div class="table-scroll"><table class="cmp" id="cmp"></table></div>
+    <div class="bench reveal">
+      <h3>How our prices compare with the Indian market</h3>
+      <p class="note">Grey bars are typical ranges quoted by Indian agencies for similar scope (<a href="https://www.weblinkindia.net/blog/website-designing-company-cost-in-india-pricing-packages-what-you-actually-pay-in-2026" target="_blank" rel="noopener">WeblinkIndia</a>, <a href="https://cloudhousetechnologies.com/blog/website-development-cost-2026-pricing-guide" target="_blank" rel="noopener">CloudHouse</a>). Markers show where Guruva sits (INR, log scale).</p>
+      <div id="bench"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 QUOTE -->
+<section class="slide" id="quote" data-title="Build your quote">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Interactive quote</span><h2>Build your exact price in 30 seconds.</h2><p class="lead">Choose a package, add what you need, and watch the total and timeline update live. Anything already included in your package is shown as “Included”.</p></div>
+    <div class="quote">
+      <div>
+        <div class="seg" id="quotePkg" role="group" aria-label="Package" style="margin-bottom:18px"></div>
+        <div id="addons"></div>
+      </div>
+      <aside class="card sum" aria-live="polite">
+        <h3 id="sumTitle">Your estimate</h3>
+        <div id="sumRows"></div>
+        <div class="row total"><span style="color:var(--ink)">Project total</span><span id="sumTotal">—</span></div>
+        <small class="note" id="sumGst"></small>
+        <label class="switch" style="margin:12px 0 0"><input type="checkbox" id="early"> Pay in full upfront (5% off)</label>
+        <div class="ms" id="ms"></div>
+        <div id="sumRec"></div>
+        <div class="row" style="border:0;margin-top:8px"><span>Estimated delivery</span><b id="sumDays">—</b></div>
+        <div class="bar-track"><div class="bar-fill" id="sumBar"></div></div>
+        <small class="note">Starts once content &amp; approvals are in place.</small>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+          <a class="btn" href="#contact" style="flex:1">Request this proposal</a>
+          <button class="btn ghost" id="copySum">Copy</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- 5b PAYMENTS & PLANS -->
+<section class="slide" id="plans" data-title="Payments & plans">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Payments &amp; plans</span><h2>Simple payments. Clear terms. Optional ongoing care.</h2><p class="lead">No surprises: you know what you pay, when you pay it, and what you get after launch.</p></div>
+
+    <h3>How you pay for the build <span class="note" id="payFor"></span></h3>
+    <div class="grid g3" id="payTimeline"></div>
+    <div class="card" style="margin-top:20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:240px"><h4 style="margin-bottom:4px">💸 Pay in full upfront and save 5%</h4><p class="note" style="margin:0">Skip the milestones: pay the project fee once at the start and take 5% off. Recurring plans below are not discounted.</p></div>
+      <button class="btn" id="applyEarly">Apply to my quote</button>
+    </div>
+
+    <h3 style="margin-top:44px">Optional plans after launch</h3>
+    <p class="note">Billed separately from the build. Add any of these in the quote builder. <span id="gstNote"></span></p>
+    <div class="table-scroll"><table class="cmp" id="recTable"></table></div>
+
+    <h3 style="margin-top:44px">Terms in plain English</h3>
+    <div class="grid g3" id="policies"></div>
+  </div>
+</section>
+
+<!-- 6 ROI -->
+<section class="slide alt" id="roi" data-title="ROI">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Return on investment</span><h2>What could a better site be worth to you?</h2><p class="lead">Move the sliders with your own numbers. The uplift is an assumption you control — we suggest staying conservative.</p></div>
+    <div class="roi">
+      <div class="card">
+        <div class="field"><label for="rVis">Monthly website visitors <output id="oVis"></output></label><input type="range" id="rVis" min="200" max="50000" step="100" value="1500"></div>
+        <div class="field"><label for="rConv">Current conversion rate (enquiries / sales) <output id="oConv"></output></label><input type="range" id="rConv" min="0.2" max="6" step="0.1" value="1"></div>
+        <div class="field"><label for="rVal">Average value of one customer <output id="oVal"></output></label><input type="range" id="rVal" min="500" max="200000" step="500" value="8000"></div>
+        <div class="field"><label for="rUp">Expected conversion uplift <output id="oUp"></output></label><input type="range" id="rUp" min="5" max="100" step="5" value="20"></div>
+        <p class="note">Value is entered in rupees (₹) regardless of the currency toggle.</p>
+      </div>
+      <div class="card">
+        <div class="kpi" id="kpi"></div>
+        <p class="note" style="margin-top:14px">Illustrative maths only: visitors × conversion rate × customer value. Real results depend on traffic quality, offer and follow-up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 PROCESS -->
+<section class="slide" id="process" data-title="How we work">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">How we work</span><h2>A simple, transparent 5-step process.</h2><p class="lead">Click a step to see what you get. Timings adjust to the package you selected.</p></div>
+    <div class="steps" id="steps" role="tablist"></div>
+    <div class="panel card" id="stepPanel" role="tabpanel"></div>
+  </div>
+</section>
+
+<!-- 8 FAQ -->
+<section class="slide alt" id="faq" data-title="FAQ">
+  <div class="wrap" style="max-width:820px">
+    <div class="section-head reveal"><span class="eyebrow">Good questions</span><h2>Frequently asked.</h2></div>
+    <details><summary>What’s not included in the price?</summary><p>Domain name, hosting and any paid third-party tools or premium plugins are billed at cost and registered in your name. Stock photography and video production are also separate unless you add copywriting/brand add-ons.</p></details>
+    <details><summary>How do payments work?</summary><p>50% to start, 30% when the design is approved, and 20% before go-live. Final files and access are handed over once the last milestone is paid.</p></details>
+    <details><summary>Who owns the website?</summary><p>You do. You get the code, design files, content and all accounts. No lock-in.</p></details>
+    <details><summary>How long will it take?</summary><p>Roughly 10 working days for Basic, 4 weeks for Pro and 8+ weeks for Advanced. The biggest factor is how quickly content and feedback arrive — the quote builder shows an estimate for your exact selection.</p></details>
+    <details><summary>Can I upgrade later?</summary><p>Yes. If you start on Basic or Pro and upgrade within 90 days, you pay only the price difference between the packages.</p></details>
+    <details><summary>What happens after launch?</summary><p>Every package includes free post-launch support (30, 60 or 90 days). After that you can add a care plan covering updates, backups, security checks and small changes.</p></details>
+    <details><summary>Can you work with my existing site or brand?</summary><p>Absolutely. We can redesign, migrate content, or keep your existing branding. Tell us in the enquiry form and we’ll scope it.</p></details>
+  </div>
+</section>
+
+<!-- 9 CTA -->
+<section class="slide" id="contact" data-title="Get started">
+  <div class="wrap">
+    <div class="cta">
+      <div class="reveal">
+        <span class="eyebrow">Next step</span>
+        <h2>Let’s turn this into your free proposal.</h2>
+        <p class="lead">Tell us a little about your business. We’ll reply with a tailored proposal — usually within one working day — based on the package and add-ons you selected.</p>
+        <ul class="ticks" style="margin-top:18px">
+          <li>Free 20-minute discovery call, no obligation</li>
+          <li>Proposal with scope, timeline and fixed price</li>
+          <li>Upgrade credit within 90 days</li>
+        </ul>
+        <div class="no-print" style="margin-top:22px"><button class="btn ghost" onclick="window.print()">🖨 Save this page as PDF</button></div>
+      </div>
+      <form class="card" id="lead" novalidate>
+        <h3>Your selection</h3>
+        <pre class="summary-box" id="leadSummary"></pre>
+        <div class="formgrid">
+          <div><label class="note" for="fName">Name *</label><input type="text" id="fName" autocomplete="name"></div>
+          <div><label class="note" for="fCompany">Business</label><input type="text" id="fCompany" autocomplete="organization"></div>
+          <div><label class="note" for="fEmail">Email</label><input type="email" id="fEmail" autocomplete="email"></div>
+          <div><label class="note" for="fPhone">Phone / WhatsApp</label><input type="tel" id="fPhone" autocomplete="tel"></div>
+          <div class="full"><label class="note" for="fMsg">Anything we should know?</label><textarea id="fMsg" placeholder="Goals, deadline, sites you like…"></textarea></div>
+        </div>
+        <div class="err" id="err" role="alert"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" type="submit" id="sendEmail" style="flex:1">✉ Send by email</button>
+          <button class="btn ghost" type="button" id="sendWa">💬 WhatsApp</button>
+        </div>
+        <p class="note" id="done" style="margin-top:12px"></p>
+      </form>
+    </div>
+  </div>
+  <footer><div class="wrap">© <span id="yr"></span> Guruva Infotech · Prices are indicative estimates and confirmed in your written proposal. Market ranges: <a href="https://www.hostinger.com/in/tutorials/website-cost" target="_blank" rel="noopener">Hostinger</a>, <a href="https://www.weblinkindia.net/blog/website-designing-company-cost-in-india-pricing-packages-what-you-actually-pay-in-2026" target="_blank" rel="noopener">WeblinkIndia</a>, <a href="https://cloudhousetechnologies.com/blog/website-development-cost-2026-pricing-guide" target="_blank" rel="noopener">CloudHouse</a>.</div></footer>
+</section>
+</main>
+
+<!-- presenter bar -->
+<div class="pbar" id="pbar">
+  <button class="icon-btn" id="prev" aria-label="Previous slide">←</button>
+  <span id="pnum">1/9</span>
+  <div class="prog"><i id="pprog"></i></div>
+  <button class="icon-btn" id="next" aria-label="Next slide">→</button>
+  <button class="btn ghost sm" id="exitP">Exit (Esc)</button>
+</div>
+
+<!-- quiz -->
+<dialog id="quiz">
+  <form method="dialog" class="dlg" id="quizForm">
+    <h3>Find your best-fit package</h3>
+    <p class="note">Four quick questions. No sign-up.</p>
+    <fieldset><legend>1. What’s the main job of your website?</legend>
+      <label class="opt"><input type="radio" name="q1" value="0" checked> Look credible &amp; share contact details</label>
+      <label class="opt"><input type="radio" name="q1" value="1"> Generate enquiries, publish content, rank on Google</label>
+      <label class="opt"><input type="radio" name="q1" value="2"> Sell online, take payments or run a custom app/portal</label></fieldset>
+    <fieldset><legend>2. How many pages do you need?</legend>
+      <label class="opt"><input type="radio" name="q2" value="0" checked> Up to 5</label>
+      <label class="opt"><input type="radio" name="q2" value="1"> 6 to 12</label>
+      <label class="opt"><input type="radio" name="q2" value="2"> 12 or more / lots of products</label></fieldset>
+    <fieldset><legend>3. Will you update content yourself?</legend>
+      <label class="opt"><input type="radio" name="q3" value="0" checked> Rarely — we can do it for you</label>
+      <label class="opt"><input type="radio" name="q3" value="1"> Yes — I want an easy editor and a blog</label>
+      <label class="opt"><input type="radio" name="q3" value="2"> Yes, plus user logins, dashboards or integrations</label></fieldset>
+    <fieldset><legend>4. Budget range (₹)?</legend>
+      <label class="opt"><input type="radio" name="q4" value="0" checked> Under 35,000</label>
+      <label class="opt"><input type="radio" name="q4" value="1"> 35,000 – 90,000</label>
+      <label class="opt"><input type="radio" name="q4" value="2"> 90,000 +</label></fieldset>
+    <div id="quizOut" style="display:none" class="card"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+      <button type="button" class="btn ghost" id="quizClose">Close</button>
+      <button type="button" class="btn" id="quizGo">Show my match</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+/* ======= EDIT THESE before sending to clients ======= */
+const CONFIG = {
+  company: "Guruva Infotech",
+  email: "",        // e.g. "hello@yourdomain.com"  — enquiries are sent here
+  whatsapp: "",     // digits only with country code, e.g. "919876543210"
+  usdPerInr: 85     // only used for the market benchmark note
+};
+/* ===================================================== */
+
+const PACKAGES = [
+  {id:"basic", name:"Basic", sub:"Launch", tag:"A clean, credible online presence for small businesses and professionals.",
+    price:{INR:19999,USD:299}, days:10, pages:5, support:30, ideal:"Ideal for startups & local services",
+    feats:["Up to 5 pages (Home, About, Services, Gallery, Contact)","Custom-styled responsive design","Contact form with email alerts","WhatsApp click-to-chat button","Google Maps & social links","On-page SEO basics + SSL setup","2 revision rounds","30 days free support"]},
+  {id:"pro", name:"Pro", sub:"Growth", tag:"A lead-generating site you can edit yourself, built to rank and convert.", rec:true,
+    price:{INR:54999,USD:799}, days:28, pages:12, support:60, ideal:"Ideal for growing businesses",
+    head:"Everything in Basic, plus:",
+    feats:["Up to 12 pages with custom UI/UX design","Easy CMS: edit text, images &amp; blog yourself","Blog / news setup","SEO foundation: schema, sitemap, meta, redirects","Speed tuning — target LCP under 2.5s","Google Analytics 4 + conversion tracking","Lead forms → email / CRM integration","3 revision rounds + 1 training session","Free SEO audit","60 days free support"]},
+  {id:"adv", name:"Advanced", sub:"Scale", tag:"A custom e-commerce or web platform engineered for performance and scale.",
+    price:{INR:139999,USD:1899}, days:56, pages:30, support:90, ideal:"Ideal for e-commerce & custom portals",
+    head:"Everything in Pro, plus:",
+    feats:["Up to 30 pages or product catalogue setup","Custom design system &amp; brand-aligned UI","Online store or custom web app features","Payment gateway (Razorpay / Stripe) included","User accounts, dashboards &amp; roles","Custom integrations &amp; API work","Advanced SEO, multilingual-ready structure","Security hardening, backups, staging environment","Performance budget &amp; load testing","Free SEO audit","90 days free support + first 3 months of care plan free"]}
+];
+
+/* compare matrix: [label, basic, pro, adv]  true/false/text */
+const MATRIX = [
+ ["g","Scope"],
+ ["Pages included","5","12","30"],
+ ["Responsive, mobile-first design",true,true,true],
+ ["Custom UI/UX design","Styled","Custom","Design system"],
+ ["Contact form & WhatsApp button",true,true,true],
+ ["g","Content & growth"],
+ ["Easy CMS (edit content yourself)",false,true,true],
+ ["Blog setup",false,true,true],
+ ["Basic on-page SEO",true,true,true],
+ ["Advanced SEO (schema, redirects, sitemap)",false,true,true],
+ ["Analytics & conversion tracking",false,true,true],
+ ["CRM / email integration",false,true,true],
+ ["g","Commerce & platform"],
+ ["Payment gateway",false,false,true],
+ ["User accounts & dashboards",false,false,true],
+ ["Custom integrations / API",false,false,true],
+ ["Multilingual-ready",false,false,true],
+ ["g","Quality & support"],
+ ["Speed target","Fast","LCP ≤ 2.5s","Perf. budget"],
+ ["Security hardening & backups",false,"Basic",true],
+ ["Staging environment",false,false,true],
+ ["Revision rounds","2","3","4"],
+ ["Training session",false,true,true],
+ ["Free SEO audit",false,true,true],
+ ["Free support after launch","30 days","60 days","90 days"],
+ ["Care plan included",false,false,"3 months"],
+ ["Typical delivery","~10 days","~4 weeks","8+ weeks"]
+];
+
+/* add-ons */
+const ADDONS = [
+ {id:"pages", name:"Extra pages", desc:"Beyond the pages in your package", price:{INR:2500,USD:35}, step:true, per:"page", days:.5},
+ {id:"blog", name:"Blog setup", desc:"Categories, author pages, SEO-ready templates", price:{INR:5000,USD:70}, inc:["pro","adv"], days:2},
+ {id:"brand", name:"Logo & brand kit", desc:"Logo, colours, fonts, social profile images", price:{INR:8000,USD:110}, days:4},
+ {id:"copy", name:"Professional copywriting", desc:"Per page, written by our content team", price:{INR:1500,USD:20}, step:true, per:"page", days:.5},
+ {id:"gateway", name:"Payment gateway", desc:"Razorpay / Stripe checkout integration", price:{INR:12000,USD:160}, inc:["adv"], days:5},
+ {id:"i18n", name:"Multilingual (2 languages)", desc:"Language switcher & translated structure", price:{INR:15000,USD:200}, inc:[], days:7},
+];
+
+/* recurring plans billed after launch (price is per package unless flat) */
+const RECUR=[
+ {id:"care", name:"Care plan", per:"mo", desc:"Backups, security updates, uptime monitoring and monthly changes", price:{basic:{INR:1500,USD:20},pro:{INR:3500,USD:45},adv:{INR:8000,USD:100}}, inc:{adv:"first 3 months free"}},
+ {id:"host", name:"Domain + hosting + SSL", per:"yr", desc:"One yearly bill, registered in your name, renewals handled by us", price:{basic:{INR:5999,USD:75},pro:{INR:7999,USD:100},adv:{INR:16999,USD:210}}},
+ {id:"seoS", name:"SEO Starter", per:"mo", flat:true, desc:"Keyword tracking, 2 optimised pages a month, monthly report", price:{INR:10000,USD:130}},
+ {id:"seoG", name:"SEO Growth", per:"mo", flat:true, desc:"5 pages a month, content &amp; backlink outreach, monthly strategy call", price:{INR:20000,USD:260}}
+];
+const EARLY=0.05, HOURLY={INR:1000,USD:15}, AUDIT={INR:5000,USD:65};
+
+const STEPS = [
+ {n:"01", t:"Discover", d:[1,2,3], blurb:"A short call to understand your goals, audience and competitors. We agree on the sitemap, features and success metrics.", out:["Project brief & sitemap","Fixed-price proposal","Content checklist"]},
+ {n:"02", t:"Design", d:[2,7,14], blurb:"Wireframes first, then the visual design of key pages in Figma. You review and request changes before we write code.", out:["Wireframes","Visual design mock-ups","Mobile + desktop views"]},
+ {n:"03", t:"Build", d:[4,12,28], blurb:"We develop the pages, CMS and integrations on a private preview link so you can follow progress and give feedback.", out:["Working preview site","CMS & integrations","Revision rounds"]},
+ {n:"04", t:"Launch", d:[1,3,5], blurb:"Cross-device testing, speed and SEO checks, then we connect your domain and go live — with a launch checklist signed off by you.", out:["QA & speed report","Domain, SSL & hosting live","Training session (Pro+)"]},
+ {n:"05", t:"Grow", d:[2,4,8], blurb:"Free post-launch support, then an optional care plan for updates, security and continuous improvement.", out:["Free support window","Analytics review","Optional care plan"]}
+];
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={cur:"INR",pkg:"pro",gst:false,add:{},rec:{},early:false,diff:false};
+const pkgById=id=>PACKAGES.find(p=>p.id===id);
+const money=(n,cur=state.cur)=>cur==="INR"?"₹"+Math.round(n).toLocaleString("en-IN"):"$"+Math.round(n).toLocaleString("en-US");
+const gstMul=()=>state.gst?1.18:1;
+const esc=s=>String(s).replace(/&amp;/g,"&");
+const store={get(k,d){try{return localStorage.getItem(k)??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- Packages ---------- */
+function renderPackages(){
+  $("#pkgGrid").innerHTML=PACKAGES.map(p=>{
+    const shown=p.feats.slice(0,5),rest=p.feats.slice(5);
+    return `<article class="card pkg reveal in ${p.rec?"rec":""} ${state.pkg===p.id?"sel":""}" data-id="${p.id}">
+      ${p.rec?'<span class="badge">★ MOST POPULAR</span>':""}
+      <h3>${p.name} <span class="note">· ${p.sub}</span></h3>
+      <p class="tag">${p.tag}</p>
+      <div class="price">${money(p.price[state.cur]*gstMul())}<small> ${state.gst?"incl. GST":"+ GST"} · one-time</small></div>
+      <div class="meta"><span class="pill">⏱ ~${p.days>=28?Math.round(p.days/7)+" weeks":p.days+" days"}</span><span class="pill">📄 ${p.pages} pages</span><span class="pill">🛟 ${p.support}d support</span></div>
+      <ul class="ticks">
+        ${p.head?`<li class="head">${p.head}</li>`:""}
+        ${shown.map(f=>`<li>${f}</li>`).join("")}
+        ${rest.map(f=>`<li class="extra">${f}</li>`).join("")}
+      </ul>
+      <button class="more" aria-expanded="false">Show all ${p.feats.length} features ▾</button>
+      <button class="btn ${state.pkg===p.id?"":"ghost"} choose">${state.pkg===p.id?"✓ Selected — customise":"Choose "+p.name}</button>
+    </article>`}).join("");
+  $$("#pkgGrid .pkg").forEach(el=>{
+    const id=el.dataset.id;
+    el.querySelector(".more").onclick=e=>{const o=el.classList.toggle("open");e.target.setAttribute("aria-expanded",o);e.target.textContent=o?"Show fewer ▴":`Show all ${pkgById(id).feats.length} features ▾`};
+    el.querySelector(".choose").onclick=()=>{setPkg(id);$("#quote").scrollIntoView({behavior:"smooth"});if(document.body.classList.contains("present"))goTo(slides.indexOf($("#quote")))};
+  });
+}
+
+/* ---------- Compare ---------- */
+function renderCompare(){
+  const sel=["basic","pro","adv"].indexOf(state.pkg)+1;
+  let h=`<thead><tr><th></th>${PACKAGES.map((p,i)=>`<th class="${i+1===sel?"hl":""}">${p.name}<br><span class="note">${money(p.price[state.cur]*gstMul())}</span></th>`).join("")}</tr></thead><tbody>`;
+  let pendingGroup=null;
+  MATRIX.forEach(r=>{
+    if(r[0]==="g"){pendingGroup=`<tr class="group"><td colspan="4">${r[1]}</td></tr>`;return}
+    const vals=r.slice(1); const same=vals.every(v=>v===vals[0]);
+    if(state.diff&&same)return;
+    if(pendingGroup){h+=pendingGroup;pendingGroup=null}
+    h+=`<tr><td>${r[0]}</td>${vals.map((v,i)=>{const c=v===true?"y":v===false?"n":"";const t=v===true?"✓":v===false?"—":v;return `<td class="${c} ${i+1===sel?"hl":""}">${t}</td>`}).join("")}</tr>`;
+  });
+  $("#cmp").innerHTML=h+"</tbody>";
+}
+
+/* ---------- Benchmark ---------- */
+function renderBench(){
+  const lo=Math.log(5000),hi=Math.log(600000),pos=v=>((Math.log(v)-lo)/(hi-lo)*100).toFixed(2);
+  const rows=[["Basic business site",10000,25000],["Dynamic / CMS site",25000,60000],["E-commerce site",50000,150000],["Custom CMS & integrations",150000,600000]];
+  const ticks=[10000,25000,50000,100000,200000,500000];
+  const lab=v=>v>=100000?(v/100000)+"L":(v/1000)+"k";
+  let h=rows.map(r=>`<div class="brow"><div>${r[0]}</div><div class="btrack"><div class="brange" style="left:${pos(r[1])}%;width:${pos(r[2])-pos(r[1])}%" title="₹${r[1].toLocaleString("en-IN")} – ₹${r[2].toLocaleString("en-IN")}"></div></div></div>`).join("");
+  h+=`<div class="brow"><div><b>Guruva Infotech</b></div><div class="btrack" style="margin-top:16px">${PACKAGES.map(p=>`<div class="bmark ${p.id===state.pkg?"sel":""}" style="left:${pos(p.price.INR)}%"><b>${p.name} ₹${(p.price.INR/1000).toFixed(0)}k</b></div>`).join("")}</div></div>`;
+  h+=`<div class="axis"><div></div><div>${ticks.map(t=>`<span style="left:${pos(t)}%">₹${lab(t)}</span>`).join("")}</div></div>`;
+  $("#bench").innerHTML=h;
+}
+
+/* ---------- Quote ---------- */
+function setPkg(id){state.pkg=id;state.add={};state.rec={};refreshAll()}
+function addonIncluded(a){return a.inc&&a.inc.includes(state.pkg)}
+function renderQuoteControls(){
+  $("#quotePkg").innerHTML=PACKAGES.map(p=>`<button data-id="${p.id}" aria-pressed="${state.pkg===p.id}">${p.name}</button>`).join("");
+  $$("#quotePkg button").forEach(b=>b.onclick=()=>setPkg(b.dataset.id));
+  $("#addons").innerHTML=ADDONS.map(a=>{
+    const inc=addonIncluded(a), v=state.add[a.id]||0, on=inc||v>0;
+    const price=inc?"Included":`${money(a.price[state.cur])}${a.per?" / "+a.per:""}`;
+    const ctrl=inc?`<input type="checkbox" checked disabled aria-label="${a.name} included">`:a.step
+      ?`<div class="step"><button data-a="${a.id}" data-d="-1" aria-label="Fewer">–</button><output>${v}</output><button data-a="${a.id}" data-d="1" aria-label="More">+</button></div>`
+      :`<input type="checkbox" data-a="${a.id}" ${v?"checked":""} aria-label="${a.name}">`;
+    return `<label class="addon ${on?"on":""} ${inc?"inc":""}">${ctrl}<span class="t"><b>${a.name}</b><span>${a.desc}</span></span><span class="p">${price}</span></label>`}).join("");
+  $$("#addons input[data-a]").forEach(i=>i.onchange=()=>{state.add[i.dataset.a]=i.checked?1:0;renderQuoteSummary();renderQuoteControls();renderLead()});
+  $$("#addons .step button").forEach(b=>b.onclick=e=>{e.preventDefault();const id=b.dataset.a;state.add[id]=Math.max(0,Math.min(40,(state.add[id]||0)+Number(b.dataset.d)));renderQuoteControls();renderQuoteSummary();renderLead()});
+}
+function jumpTo(sel){const t=$(sel);document.body.classList.contains("present")?goTo(slides.indexOf(t)):t.scrollIntoView({behavior:"smooth"})}
+function recPrice(r,pid){return (r.flat?r.price:r.price[pid])[state.cur]}
+function recurringLines(p){
+  return RECUR.filter(r=>state.rec[r.id]).map(r=>({n:r.name+(r.inc&&r.inc[p.id]?` (${r.inc[p.id]})`:""),v:recPrice(r,p.id),per:r.per}));
+}
+function renderPlans(){
+  const q=window.__quote; if(!q)return;
+  $("#payFor").textContent=`· for your ${q.p.name} estimate`;
+  const sp=[.5,.3,.2], L=[["On start","50%","Kicks off discovery and design"],["Design approved","30%","Development begins"],["Before go-live","20%","Final files and access handed over"]];
+  $("#payTimeline").innerHTML=state.early
+    ? `<div class="card" style="grid-column:1/-1"><span class="pill">100% upfront</span><div class="price" style="font-size:1.8rem">${money(q.total)}</div><p class="note">Early-pay discount applied: you save ${money(q.disc*gstMul())}.</p></div>`
+    : L.map((l,i)=>`<div class="card"><span class="pill">${l[1]}</span><div class="price" style="font-size:1.8rem">${money(q.total*sp[i])}</div><h4>${l[0]}</h4><p class="note" style="margin:0">${l[2]}</p></div>`).join("");
+  const sel=["basic","pro","adv"].indexOf(state.pkg), hl=i=>i===sel?"hl":"";
+  const row=(label,cells)=>`<tr><td>${label}</td>${cells.map((c,i)=>`<td class="${hl(i)}">${c}</td>`).join("")}</tr>`;
+  const det=r=>`${r.name} <span class="note">· per ${r.per==="mo"?"month":"year"}</span><br><span class="note">${r.desc}</span>`;
+  const flat=r=>[0,1,2].map(()=>money(recPrice(r,"pro")*gstMul()));
+  const per=r=>PACKAGES.map(p=>money(recPrice(r,p.id)*gstMul()));
+  $("#recTable").innerHTML=`<thead><tr><th></th>${PACKAGES.map((p,i)=>`<th class="${hl(i)}">${p.name}</th>`).join("")}</tr></thead><tbody>`
+    +row(det(RECUR[0]),per(RECUR[0]))
+    +row("Care plan includes",["Backups, security updates, uptime monitoring, 1 hr of changes","+ 3 hrs of changes, monthly performance report","+ 8 hrs of changes, 24h priority response, quarterly review"])
+    +row(det(RECUR[1]),per(RECUR[1]))
+    +row(det(RECUR[2]),flat(RECUR[2]))
+    +row(det(RECUR[3]),flat(RECUR[3]))+"</tbody>";
+  $("#gstNote").textContent=state.gst?"Prices include 18% GST.":"Prices exclude 18% GST.";
+  const P=[
+   ["Revisions","Each package has fixed revision rounds (2, 3 or 4). Extra changes are billed at "+money(HOURLY[state.cur])+" per hour and quoted before we start."],
+   ["Cancellation","The 50% start payment covers discovery and design work and is non-refundable. Any milestone already delivered is billed."],
+   ["Ownership & handover","You own the code, design files and content. Everything is handed over once the final payment is received."],
+   ["Upgrade credit","Move up to a bigger package within 90 days and pay only the price difference."],
+   ["Free with Pro & Advanced","A free SEO audit (worth "+money(AUDIT[state.cur])+"). Advanced also includes your first 3 months of care plan."],
+   ["Timelines","Delivery estimates start once content and approvals are in place. The clock pauses while we wait on your feedback."]
+  ];
+  $("#policies").innerHTML=P.map(p=>`<div class="card"><h4>${p[0]}</h4><p class="note" style="margin:0;color:var(--ink-2);font-size:.92rem">${p[1]}</p></div>`).join("");
+}
+function calcQuote(){
+  const p=pkgById(state.pkg); let items=[{n:`${p.name} package`,v:p.price[state.cur]}], days=p.days;
+  ADDONS.forEach(a=>{const q=state.add[a.id]||0; if(!q||addonIncluded(a))return;
+    const mult=a.step?q:1; items.push({n:a.step?`${a.name} × ${q}`:a.name,v:a.price[state.cur]*mult}); days+=(a.days||0)*mult});
+  if(p.id!=="basic")items.push({n:`SEO audit (free with ${p.name})`,v:0,free:true});
+  const gross=items.reduce((s,i)=>s+i.v,0), disc=state.early?gross*EARLY:0, sub=gross-disc, gst=state.gst?sub*.18:0;
+  return {p,items,gross,disc,sub,gst,total:sub+gst,days:Math.round(days),rec:recurringLines(p)};
+}
+function renderQuoteSummary(){
+  const q=calcQuote();
+  $("#sumTitle").textContent=`Your estimate — ${q.p.name}`;
+  $("#sumRows").innerHTML=q.items.map(i=>`<div class="row"><span>${i.n}</span><b>${i.free?"Free":money(i.v)}</b></div>`).join("")+(q.disc?`<div class="row"><span>Early-pay discount (5%)</span><b style="color:var(--ok)">−${money(q.disc)}</b></div>`:"")+(state.gst?`<div class="row"><span>GST (18%)</span><b>${money(q.gst)}</b></div>`:"");
+  $("#sumTotal").textContent=money(q.total);
+  $("#sumGst").textContent=state.gst?"Includes 18% GST.":"Excludes 18% GST (toggle it in the Packages section).";
+  const split=[.5,.3,.2],lbl=["On start","Design approved","Before go-live"];
+  $("#ms").style.gridTemplateColumns=state.early?"1fr":"";
+  $("#ms").innerHTML=state.early?`<div><b>${money(q.total)}</b>Paid once, upfront (100%)</div>`:split.map((s,i)=>`<div><b>${money(q.total*s)}</b>${lbl[i]} (${s*100}%)</div>`).join("");
+  $("#early").checked=state.early;
+  const wk=q.days>=28?`~${Math.round(q.days/7)} weeks`:`~${q.days} working days`;
+  $("#sumDays").textContent=wk;
+  $("#sumBar").style.width=Math.min(100,q.days/70*100)+"%";
+  const g=gstMul(), mo=q.rec.filter(r=>r.per==="mo").reduce((s,r)=>s+r.v,0)*g, yr=q.rec.filter(r=>r.per==="yr").reduce((s,r)=>s+r.v,0)*g;
+  $("#sumRec").innerHTML=q.rec.length?`<h4 style="margin:16px 0 4px;font-size:.95rem">After launch (recurring)</h4>`+q.rec.map(r=>`<div class="row"><span>${r.n}</span><b>${money(r.v*g)}/${r.per}</b></div>`).join("")+(mo?`<div class="row"><span>Monthly total</span><b>${money(mo)}/mo</b></div>`:"")+(yr?`<div class="row"><span>Yearly total</span><b>${money(yr)}/yr</b></div>`:""):"";
+  window.__quote=q;
+  renderPlans();
+}
+
+/* ---------- ROI ---------- */
+function renderROI(){
+  const vis=+$("#rVis").value, conv=+$("#rConv").value, val=+$("#rVal").value, up=+$("#rUp").value;
+  $("#oVis").textContent=vis.toLocaleString("en-IN"); $("#oConv").textContent=conv.toFixed(1)+"%";
+  $("#oVal").textContent="₹"+val.toLocaleString("en-IN"); $("#oUp").textContent="+"+up+"%";
+  const cur=vis*conv/100, nw=cur*(1+up/100), extra=(nw-cur)*val;
+  const q=calcQuote(), invINR=state.cur==="INR"?q.total:q.total*CONFIG.usdPerInr;
+  const pay=extra>0?invINR/extra:Infinity;
+  const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+  $("#kpi").innerHTML=`<div><small>Customers / month now</small><b>${cur.toFixed(1)}</b></div>
+   <div><small>With your new site</small><b>${nw.toFixed(1)}</b></div>
+   <div class="big"><small>Extra revenue per month</small><b>${inr(extra)}</b></div>
+   <div><small>Your ${q.p.name} estimate</small><b>${money(q.total)}</b></div>
+   <div><small>Estimated payback</small><b>${isFinite(pay)?(pay<1?"< 1 month":pay.toFixed(1)+" months"):"—"}</b></div>`;
+}
+
+/* ---------- Process ---------- */
+let stepIdx=0;
+function renderSteps(){
+  const pi=["basic","pro","adv"].indexOf(state.pkg);
+  $("#steps").innerHTML=STEPS.map((s,i)=>`<button role="tab" aria-selected="${i===stepIdx}" data-i="${i}"><b>STEP ${s.n}</b>${s.t}</button>`).join("");
+  $$("#steps button").forEach(b=>b.onclick=()=>{stepIdx=+b.dataset.i;renderSteps()});
+  const s=STEPS[stepIdx], d=s.d[pi];
+  $("#stepPanel").innerHTML=`<div><h3>${s.n} · ${s.t}</h3><p>${s.blurb}</p><span class="pill">≈ ${d} working day${d>1?"s":""} on ${pkgById(state.pkg).name}</span></div>
+    <div><h4>You receive</h4><ul class="ticks">${s.out.map(o=>`<li>${o}</li>`).join("")}</ul></div>`;
+}
+
+/* ---------- Lead ---------- */
+function summaryText(){
+  const q=window.__quote||calcQuote(), L=[];
+  L.push(`Package: ${q.p.name} (${q.p.sub})`);
+  q.items.slice(1).forEach(i=>L.push(`+ ${i.n}`));
+  L.push(`Estimate: ${money(q.total)} ${state.gst?"incl.":"excl."} GST`);
+  L.push(`Delivery: ${$("#sumDays").textContent}`);
+  return L.join("\n");
+}
+function renderLead(){$("#leadSummary").textContent=summaryText()}
+function leadBody(){
+  return `Hi ${CONFIG.company},\n\nI'd like a proposal.\n\n${summaryText()}\n\nName: ${$("#fName").value}\nBusiness: ${$("#fCompany").value}\nEmail: ${$("#fEmail").value}\nPhone: ${$("#fPhone").value}\n\n${$("#fMsg").value}`;
+}
+function validLead(){
+  const n=$("#fName").value.trim(), e=$("#fEmail").value.trim(), p=$("#fPhone").value.trim();
+  let m="";
+  if(!n)m="Please enter your name.";
+  else if(!e&&!p)m="Please add an email or phone number so we can reach you.";
+  else if(e&&!/^\S+@\S+\.\S+$/.test(e))m="That email address doesn't look right.";
+  $("#err").textContent=m;return !m;
+}
+$("#lead").addEventListener("submit",ev=>{
+  ev.preventDefault(); if(!validLead())return;
+  const body=leadBody();
+  if(CONFIG.email){
+    location.href=`mailto:${CONFIG.email}?subject=${encodeURIComponent("Website proposal request — "+(window.__quote||calcQuote()).p.name)}&body=${encodeURIComponent(body)}`;
+    $("#done").textContent="Opening your email app… If nothing opens, use the WhatsApp button or copy the summary.";
+  } else copyFallback(body,"Email isn't configured yet, so we copied your request — please paste it into an email to us.");
+});
+$("#sendWa").onclick=()=>{
+  if(!validLead())return; const body=leadBody();
+  if(CONFIG.whatsapp)window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(body)}`,"_blank","noopener");
+  else copyFallback(body,"WhatsApp isn't configured yet, so we copied your request instead.");
+};
+function copyFallback(text,msg){
+  (navigator.clipboard?navigator.clipboard.writeText(text):Promise.reject()).then(()=>$("#done").textContent=msg).catch(()=>$("#done").textContent="Please copy the summary above and send it to us.");
+}
+$("#copySum").onclick=()=>copyFallback(summaryText(),"Estimate copied to clipboard.");
+$("#copySum").addEventListener("click",()=>{const b=$("#copySum");b.textContent="Copied ✓";setTimeout(()=>b.textContent="Copy",1600)});
+
+/* ---------- Quiz ---------- */
+const quiz=$("#quiz");
+function openQuiz(){$("#quizOut").style.display="none";quiz.showModal()}
+["#openQuiz1","#openQuiz2"].forEach(s=>$(s).onclick=openQuiz);
+$("#quizClose").onclick=()=>quiz.close();
+$("#quizGo").onclick=()=>{
+  const v=n=>+document.querySelector(`input[name=${n}]:checked`).value;
+  const score=(v("q1")*1.2+v("q2")+v("q3")*1.2+v("q4"))/(2*(1.2+1+1.2+1))*100;
+  const id=score<32?"basic":score<68?"pro":"adv", p=pkgById(id);
+  const out=$("#quizOut");out.style.display="block";
+  out.innerHTML=`<span class="eyebrow">Your best match</span><h3>${p.name} — ${p.sub}</h3><p>${p.tag}</p><p><b>${money(p.price[state.cur])}</b> · ~${p.days>=28?Math.round(p.days/7)+" weeks":p.days+" days"}</p><button type="button" class="btn" id="useMatch">Use ${p.name} →</button>`;
+  $("#useMatch").onclick=()=>{quiz.close();setPkg(id);const t=$("#quote");document.body.classList.contains("present")?goTo(slides.indexOf(t)):t.scrollIntoView({behavior:"smooth"})};
+};
+
+/* ---------- Counters + reveal ---------- */
+function runCount(el){
+  const t=+el.dataset.count, dec=+(el.dataset.dec||0), dur=1100, t0=performance.now();
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.textContent=t.toFixed(dec);return}
+  (function f(now){const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3);el.textContent=(t*e).toFixed(dec);if(k<1)requestAnimationFrame(f)})(t0);
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");e.target.querySelectorAll("[data-count]").forEach(c=>{if(!c.dataset.done){c.dataset.done=1;runCount(c)}});io.unobserve(e.target)}}),{threshold:.2});
+$$(".reveal").forEach(el=>io.observe(el));
+
+/* nav highlight */
+const links=$$("#nav a"), secs=links.map(a=>$(a.getAttribute("href")));
+const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle("on",l.getAttribute("href")==="#"+e.target.id))}}),{rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(s=>s&&io2.observe(s));
+
+/* ---------- Presenter ---------- */
+const slides=$$("main > section.slide"); let cur=0;
+function goTo(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>s.classList.toggle("active",k===cur));
+  slides[cur].scrollTop=0;
+  $("#pnum").textContent=`${cur+1}/${slides.length}`; $("#pprog").style.width=((cur+1)/slides.length*100)+"%";
+  slides[cur].querySelectorAll("[data-count]").forEach(c=>{c.dataset.done=1;runCount(c)});
+}
+function setPresent(on){
+  document.body.classList.toggle("present",on);
+  $("#presentBtn").innerHTML=on?"■ <span class='lbl'>Exit</span>":"▶ <span class='lbl'>Present</span>";
+  if(on){const y=scrollY+innerHeight/2;let idx=slides.findIndex(s=>s.offsetTop+s.offsetHeight>y);goTo(idx<0?0:idx);
+    document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}
+  else{slides.forEach(s=>s.classList.remove("active"));if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});slides[cur].scrollIntoView()}
+}
+$("#presentBtn").onclick=()=>setPresent(!document.body.classList.contains("present"));
+$("#exitP").onclick=()=>setPresent(false);
+$("#prev").onclick=()=>goTo(cur-1); $("#next").onclick=()=>goTo(cur+1);
+document.addEventListener("keydown",e=>{
+  if((e.target.matches&&e.target.matches("input,textarea,select"))||quiz.open)return;
+  const on=document.body.classList.contains("present");
+  if(e.key==="p"||e.key==="P"){setPresent(!on)}
+  else if(on&&["ArrowRight","PageDown"," "].includes(e.key)){e.preventDefault();goTo(cur+1)}
+  else if(on&&["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();goTo(cur-1)}
+  else if(on&&e.key==="Escape"){setPresent(false)}
+});
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("present"))setPresent(false)});
+// links inside present mode jump to the right slide
+document.addEventListener("click",e=>{
+  const a=e.target.closest('a[href^="#"]'); if(!a||!document.body.classList.contains("present"))return;
+  const t=document.querySelector(a.getAttribute("href")); const i=slides.indexOf(t);
+  if(i>=0){e.preventDefault();goTo(i)}
+});
+
+/* ---------- Global wiring ---------- */
+function refreshAll(){
+  renderPackages();renderCompare();renderBench();renderQuoteControls();renderQuoteSummary();renderROI();renderSteps();renderLead();
+}
+$$(".seg button[data-cur]").forEach(b=>b.onclick=()=>{state.cur=b.dataset.cur;$$(".seg button[data-cur]").forEach(x=>x.setAttribute("aria-pressed",x===b));store.set("g_cur",state.cur);refreshAll()});
+$("#gst").onchange=e=>{state.gst=e.target.checked;refreshAll()};
+$("#diffOnly").onchange=e=>{state.diff=e.target.checked;renderCompare()};
+["#rVis","#rConv","#rVal","#rUp"].forEach(s=>$(s).addEventListener("input",renderROI));
+$("#theme").onclick=()=>{
+  const root=document.documentElement, dark=getComputedStyle(root).getPropertyValue("--bg").trim()==="#0b1022";
+  const next=dark?"light":"dark"; root.dataset.theme=next; store.set("g_theme",next);
+};
+const savedTheme=store.get("g_theme",null); if(savedTheme)document.documentElement.dataset.theme=savedTheme;
+const savedCur=store.get("g_cur","INR"); if(savedCur==="USD")$('.seg button[data-cur="USD"]').click();
+$("#yr").textContent=new Date().getFullYear();
+refreshAll();
+</script>
+</body>
+</html>
